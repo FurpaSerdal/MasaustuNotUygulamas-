@@ -1,59 +1,55 @@
-# Electronnote
+# 📝 Electron Note App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+Electron ve Angular kullanılarak geliştirilmiş masaüstü bir not alma uygulamasıdır. Notlarınız SQLite veritabanında saklanır ve modern bir arayüz ile yönetilir.
 
-## Development server
+## 🚀 Özellikler
 
-To start a local development server, run:
+✔️ Not ekleme, silme, güncelleme  
+📦 Notları arşivleme ve geri yükleme  
+🕒 Güncellenme tarihi gösterimi  
+🔐 Veriler SQLite ile yerel olarak saklanır  
+🖥️ Tamamen masaüstü uygulaması olarak çalışır
 
-```bash
-ng serve
-```
+## 📷 Uygulama Görüntüsü
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+![Not Uygulaması Görseli](assets/icons/notepad-color-icon.png)
 
-## Code scaffolding
+## 🛠️ Kullanılan Teknolojiler
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Electron  
+- Angular  
+- SQLite  
+- Prisma ORM  
+- Bootstrap 5
 
-```bash
-ng generate component component-name
-```
+## 🔧 Kurulum
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**1. Projeyi Klonla**  
+`git clone https://github.com/kullanici-adi/electron-note-app.git`  
+`cd electron-note-app`
 
-```bash
-ng generate --help
-```
+**2. Bağımlılıkları Kur**  
+`npm install`
 
-## Building
+**3. Prisma ile Veritabanı Kurulumu**  
+`npx prisma generate`  
+`npx prisma migrate dev --name init`  
+> `prisma/schema.prisma` dosyasında veri modeli tanımlıdır. SQLite kullanır.
+**4. Electron Main'i Derle**  
+`npx tsc --project tsconfig.electron.json` 
 
-To build the project run:
+**5. Angular UI'yi Derle**  
+`ng build`  
+> `dist/` klasörüne Angular çıktısı üretilecektir.
 
-```bash
-ng build
-```
+**6. Electron Uygulamasını Başlat**  
+`npm run electron:start`  
+> Uygulama masaüstü ortamında açılacaktır.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**7. Uygulama Derleme (Paketleme)**  
+`npm run electron:build`  
+> Bu komut ile `.exe` gibi dağıtılabilir dosyalar oluşturabilirsiniz.  
+> `electron-builder` yapılandırmasına göre çalışır.
 
-## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+"# MasaustuNotUygulamas-" 
