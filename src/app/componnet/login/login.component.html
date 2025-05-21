@@ -1,0 +1,74 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow login-card p-4" style="max-width: 400px; width: 100%;">
+ <div class="text-center mb-4 d-flex justify-content-center align-items-center gap-2">
+<img src="assets/icons/notepad-color-icon.png" alt="Not Defteri" style="max-height: 80px;" />
+</div>
+
+    <h2 class="text-center mb-4">{{ isRegisterMode ? 'Kayıt Ol' : 'Giriş Yap' }}</h2>
+
+    <form (ngSubmit)="isRegisterMode ? register() : login()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Kullanıcı Adı</label>
+        <input
+          id="name"
+          name="name"
+          class="form-control"
+          [(ngModel)]="name"
+          (focus)="activeInput = 'name'"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Şifre</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          class="form-control"
+          [(ngModel)]="password"
+          (focus)="activeInput = 'password'"
+          required
+        />
+      </div>
+
+      <div *ngIf="isRegisterMode" class="mb-3">
+        <label for="email" class="form-label">Email (Opsiyonel)</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          class="form-control"
+          [(ngModel)]="email"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mb-3">
+        {{ isRegisterMode ? 'Kayıt Ol' : 'Giriş Yap' }}
+      </button>
+    </form>
+
+    <!-- Sayısal tuşlar sadece login modunda aktif -->
+    <div class="keypad mb-3" *ngIf="!isRegisterMode">
+      <div class="row row-cols-3 g-2">
+        <div class="col" *ngFor="let num of numbers">
+          <button
+            type="button"
+            class="btn btn-outline-secondary w-100"
+            (click)="handleNumberClick(num)"
+          >
+            {{ num }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center text-danger">{{ message }}</p>
+
+    <p class="text-center mt-3">
+      <a href="#" (click)="toggleMode($event)" class="text-decoration-none">
+        {{ isRegisterMode ? 'Giriş yap' : 'Hesabınız yok mu? Kayıt olun' }}
+      </a>
+    </p>
+  </div>
+</div>

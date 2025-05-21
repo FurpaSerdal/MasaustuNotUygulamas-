@@ -1,0 +1,103 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">📒 Notlarım</h2>
+    <button class="btn btn-outline-danger" (click)="logout()">Çıkış Yap</button>
+  </div>
+
+  <p class="text-muted mb-4">Notlarınızı buradan ekleyebilir, silebilir ve arşivleyebilirsiniz.</p>
+
+  <div class="mb-4 text-end">
+    <button (click)="toggleArchiveView()" class="btn btn-secondary">
+      {{ showArchive ? '❌ Arşivden Çık' : '📦 Arşivler' }}
+    </button>
+  </div>
+
+<!-- Not Ekleme/Güncelleme Formu -->
+<form *ngIf="!showArchive" (ngSubmit)="editingNoteId ? updateNotByButton() : addNot()" #noteForm="ngForm" class="card p-4 mb-4 shadow-sm">
+  <div class="mb-3">
+    <label class="form-label">Başlık (Opsiyonel)</label>
+    <input
+      type="text"
+      class="form-control"
+      name="title"
+      [(ngModel)]="newNote.title"
+      placeholder="Bir başlık girin..."
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Not İçeriği <span class="text-danger">*</span></label>
+    <input
+      type="text"
+      class="form-control"
+      name="text"
+      [(ngModel)]="newNote.text"
+      placeholder="Not içeriğini yazın..."
+      required
+    />
+  </div>
+
+  <!-- İki ayrı buton (duruma göre biri görünür) -->
+  <div class="d-flex gap-2">
+    <!-- Not Ekle Butonu -->
+    <button *ngIf="!editingNoteId" type="submit" class="btn btn-primary w-100" [disabled]="noteForm.invalid">
+      ➕ Not Ekle
+    </button>
+
+    <!-- Not Güncelle Butonu -->
+    <button *ngIf="editingNoteId" type="submit" class="btn btn-success w-100" [disabled]="noteForm.invalid">
+      💾 Notu Güncelle
+    </button>
+  </div>
+</form>
+
+
+  <hr />
+
+  <!-- Ana Notlar Listesi -->
+<div *ngIf="!showArchive">
+  <div
+    *ngFor="let not of notlar"
+    class="card mb-3 shadow-sm border-start border-4 position-relative"
+    [class.border-danger]="not.isDeleted"
+  >
+    <div class="card-body">
+      <h5 class="card-title">{{ not.title || 'Başlıksız Not' }}</h5>
+      <p class="card-text">{{ not.text }}</p>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="deleteNot(not.id)" class="btn btn-outline-danger btn-sm">🗑️ Sil</button>
+        <button (click)="archiveNot(not.id)" class="btn btn-outline-secondary btn-sm">📦 Arşivle</button>
+        <button (click)="restoreNot(not.id)" class="btn btn-outline-secondary btn-sm">🔄 Yenile</button>
+      </div>
+      <small 
+        class="position-absolute text-muted fst-italic" 
+        style="top: 10px; right: 15px; font-size: 0.8rem; user-select: none;"
+        title="Son güncelleme tarihi"
+      >
+        ⏰ {{ not.updatedAt | date:'short' }}
+      </small>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Arşivlenmiş Notlar -->
+  <div *ngIf="showArchive">
+    <h4 class="mb-3">📦 Arşivlenmiş Notlar</h4>
+    <div
+      *ngFor="let not of arsivlenenNotlar"
+      class="card mb-3 shadow-sm border-start border-4 border-warning"
+    >
+      <div class="card-body">
+        <h5 class="card-title">{{ not.title || 'Başlıksız Not' }}</h5>
+        <p class="card-text">{{ not.text }}</p>
+        <div class="d-flex justify-content-end gap-2">
+          <button (click)="unarchiveNot(not.id)" class="btn btn-outline-success btn-sm">↩️ Geri Al</button>
+          <button (click)="deleteNot(not.id)" class="btn btn-outline-danger btn-sm">🗑️ Sil</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
