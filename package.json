@@ -1,7 +1,8 @@
 {
-  "main": "dist/electron/main.js",
   "name": "electronnote",
   "version": "0.0.0",
+  "main": "dist/electron/main.js",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,33 +11,43 @@
     "electron": "electron .",
     "seed": "ts-node --project tsconfig.seed.json prisma/seed.ts",
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
-    "build": "ng build --configuration production && electron-builder",
+    "build:electron": "tsc --project tsconfig.electron.json",
+    "build": "ng build --configuration production && npm run build:electron",
     "dist": "npm run build && electron-builder",
     "electron-build": "ng build --base-href ./ && electron .",
-    "build:electron": "npx tsc --project tsconfig.electron.json",
     "migrate": "npx prisma migrate dev --name init"
-
-
   },
   "build": {
+    "asar": false,
     "files": [
       "dist/",
-      "electron-main.js",
-      "prisma/",                     
-      "node_modules/",
-      "package.json"
+      "prisma/**",
+      "dist/electron/**"
     ],
     "extraResources": [
       {
-        "from": "prisma/dev.db",      
+        "from": "prisma/dev.db",
         "to": "prisma/dev.db"
+      },
+      {
+        "from": "node_modules/@prisma/client",
+        "to": "node_modules/@prisma/client"
+      },
+      {
+        "from": "node_modules/.prisma",
+        "to": "node_modules/.prisma"
       }
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
     }
   },
-  "private": true,
   "dependencies": {
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -46,7 +57,6 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@prisma/client": "^6.8.2",
-    "boostrap": "^2.0.0",
     "bootstrap": "^5.3.6",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
